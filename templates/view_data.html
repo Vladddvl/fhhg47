@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Просмотр данных</title>
+</head>
+<body>
+    <h1>Сохраненные данные</h1>
+    <div class="data-list">
+        {% for entry in entries %}
+            <div class="data-item">
+                <p>ID: {{ entry.id }}</p>
+                <p>Данные: {{ entry.data_input }}</p>
+            </div>
+            <hr>
+        {% endfor %}
+    </div>
+    <a href="/">Назад</a>
+</body>
+</html> 

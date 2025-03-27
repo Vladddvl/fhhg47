@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Динамическая форма</title>
+  <!-- Подключение jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+</head>
+<body>
+  <h1>Инпуты</h1>
+  <!-- Форма -->
+  <form id="dynamic-form">
+    <div id="input-container">
+      <div class="input-field">
+        <input type="text" name="name[]" placeholder="Введите значение">
+      </div>
+    </div>
+    <button type="button" id="add-input">Добавить инпут</button>
+    <button type="submit">Отправить</button>
+  </form>
+  
+  <p><a href="/view">Все данные</a></p>
+
+  <!-- Скрипт динамического добавления инпутов -->
+  <script>
+    $(document).ready(function(){
+      $("#add-input").click(function(){
+        // Создаем новый блок для инпута
+        var newInput = $('<div class="input-field"><input type="text" name="name[]" placeholder="Введите значение"></div>');
+        $("#input-container").append(newInput);
+      });
+
+      // Обработка отправки формы
+      $("#dynamic-form").submit(function(e){
+        e.preventDefault();
+        var values = $("input[name='name[]']").map(function(){ return $(this).val(); }).get();
+        
+        // Отправляем данные на сервер через AJAX
+        $.ajax({
+          url: '/',
+          method: 'POST',
+          data: { 'name[]': values },
+          success: function(response) {
+            alert(response.message);
+            // Очищаем форму после успешной отправки
+            $("#input-container").html('<div class="input-field"><input type="text" name="name[]" placeholder="Введите значение"></div>');
+          },
+          error: function(error) {
+            alert('Произошла ошибка при сохранении данных');
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html> 
